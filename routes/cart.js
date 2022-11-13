@@ -35,24 +35,6 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req,res)=>{
     }
 });
 
-//GET USER CART BY ID
-router.get("/:userId", verifyTokenAndAuthorization, async (req,res)=>{
-    try{
-        const cart = await Cart.findOne({userId: req.params.userId});
-        res.status(200).json(cart);
-    }catch(error){
-        res.status(500).json(error);        
-    }
-});
 
-//GET ALL CARTS OF ALL USERS
-router.get("/", verifyTokenAndAdmin, async (req,res)=>{
-    try{
-        const carts = await Cart.find();
-        res.status(200).json(carts);
-    }catch(error){
-        res.status(500).json(error);        
-    }
-});
 
 module.exports = router;

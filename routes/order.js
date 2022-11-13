@@ -35,24 +35,4 @@ router.delete("/:id", verifyTokenAndAdmin, async (req,res)=>{
     }
 });
 
-//GET USER ORDERS
-router.get("/:userId", verifyTokenAndAuthorization, async (req,res)=>{
-    try{
-        const orders = await Order.find({userId: req.params.userId});
-        res.status(200).json(orders);
-    }catch(error){
-        res.status(500).json(error);        
-    }
-});
-
-//GET ALL ORDERS OF ALL USERS
-router.get("/", verifyTokenAndAdmin, async (req,res)=>{
-    try{
-        const orders = await Order.find();
-        res.status(200).json(orders);
-    }catch(error){
-        res.status(500).json(error);        
-    }
-});
-
 module.exports = router;
