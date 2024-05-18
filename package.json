@@ -16,5 +16,8 @@
     "nodemon": "^2.0.20",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.6.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
