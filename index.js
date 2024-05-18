@@ -22,8 +22,9 @@ app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
 
-
 app.listen(process.env.PORT, () => {
     console.log(`App listening on port ${process.env.PORT}`);
     V1SwaggerDocs(app, process.env.PORT);
 });
+
+module.exports = app;
