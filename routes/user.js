@@ -1,86 +1,93 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const Order = require("../models/Order");
-const {verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("./verifyToken");
+const Cart = require("../models/Cart");
+//const {verifyTokenAndAuthorization, verifyTokenAndAdmin} = require("./verifyToken");
 
 //UPDATE
-router.put("/:id", verifyTokenAndAuthorization, async (req,res)=>{
-    try{
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true});
-        res.status(200).json(updatedUser);
-    }catch(error){
-        res.status(500).json(error);
+router.put("/:id", async (req,res)=>{ //, verifyTokenAndAuthorization
+
+    if(req.params.id.match(/^[0-9a-fA-F]{24}$/)){
+        try{
+            const updatedUser = await User.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true});
+            return res.status(200).json(updatedUser);
+        }catch(error){
+            return res.status(500).json("error: " + error);
+        }
+    } else{
+        return res.status(404).json("Not Found");
     }
+
 });
 
 //DELETE
-router.delete("/:id", verifyTokenAndAuthorization, async (req,res)=>{
-    try{
-        await User.findByIdAndDelete(req.body.id);
-        res.status(204).json("User has been deleted");
-    }catch(error){
-        res.status(500).json(error);        
+router.delete("/:id", async (req,res)=>{//, verifyTokenAndAuthorization
+
+    if(req.params.id.match(/^[0-9a-fA-F]{24}$/)){ 
+        try{
+            await User.findByIdAndDelete(req.params.id);
+            return res.status(204).json("User has been deleted");
+        }catch(error){
+            return res.status(500).json(error);        
+        }
+    } else{
+        return res.status(404).json("Not Found");
     }
+
 });
 
 //GET BY ID
-router.get("/:id", verifyTokenAndAdmin, async (req,res)=>{
-    try{
-        const user = await User.findById(req.body.id);
-        const { password, ...others } = user._doc;
-        res.status(200).json(others);
-    }catch(error){
-        res.status(500).json(error);        
+router.get("/:id", async (req,res)=>{//, verifyTokenAndAdmin
+
+    if(req.params.id.match(/^[0-9a-fA-F]{24}$/)){ 
+        try{
+            const user = await User.findById(req.params.id);
+            const { password, ...others } = user._doc;
+            return res.status(200).json(others);
+        }catch(error){
+            return res.status(500).json(error);        
+        }
+    } else{
+        return res.status(404).json("Not Found");
     }
+
 });
 
 //GET ALL
-router.get("/", verifyTokenAndAdmin, async (req,res)=>{
+router.get("/", async (req,res)=>{// , verifyTokenAndAdmin
     try{
         const users = await User.find();
-        res.status(200).json(users);
+        return res.status(200).json(users);
     }catch(error){
-        res.status(500).json(error);        
+        return res.status(500).json(error);        
     }
 });
 
-//GET USER ORDERS
-router.get("/:userId/orders", verifyTokenAndAuthorization, async (req,res)=>{
-    try{
-        const orders = await Order.find({userId: req.params.userId});
-        res.status(200).json(orders);
-    }catch(error){
-        res.status(500).json(error);        
-    }
-});
-
-//GET ALL ORDERS OF ALL USERS
-router.get("/orders", verifyTokenAndAdmin, async (req,res)=>{
-    try{
-        const orders = await Order.find();
-        res.status(200).json(orders);
-    }catch(error){
-        res.status(500).json(error);        
+//GET ORDERS OF ONE USER
+router.get("/:userId/orders", async (req,res)=>{//, verifyTokenAndAuthorization
+    if(req.params.userId.match(/^[0-9a-fA-F]{24}$/)){ 
+        try{
+            const orders = await Order.find({userId: req.params.userId});
+            return res.status(200).json(orders);
+        }catch(error){
+            return res.status(500).json(error);        
+        }
+    } else{
+        return res.status(404).json("Not Found");
     }
 });
 
 //GET USER CART BY ID
-router.get("/:userId/carts", verifyTokenAndAuthorization, async (req,res)=>{
-    try{
-        const cart = await Cart.findOne({userId: req.params.userId});
-        res.status(200).json(cart);
-    }catch(error){
-        res.status(500).json(error);        
-    }
-});
-
-//GET ALL CARTS OF ALL USERS
-router.get("/carts", verifyTokenAndAdmin, async (req,res)=>{
-    try{
-        const carts = await Cart.find();
-        res.status(200).json(carts);
-    }catch(error){
-        res.status(500).json(error);        
+router.get("/:userId/carts", async (req,res)=>{//, verifyTokenAndAuthorization
+    if(req.params.userId.match(/^[0-9a-fA-F]{24}$/)){ 
+        try{
+            const cart = await Cart.findOne({userId: req.params.userId});
+            return res.status(200).json(cart);
+        }catch(error){
+            return res.status(500).json(error);        
+        }
+    }else{
+        return res.status(404).json("Not Found");
     }
 });
 

@@ -9,24 +9,31 @@ router.post("/register", async (req,res)=>{
         password: req.body.password
     });
 
+    while(req.body.username === "" || req.body.email === "" || req.body.password === ""){
+        return res.status(400).json("Bad request. Some fields are empty");
+    }
+    
     try{
         await newUser.save();
         res.status(201).send(req.body);
     }
     catch(error){
-        //if(username.empty) do somenthing
         res.status(500).json(error);
-        
     }
+    
 });
 
 router.post("/login", async (req,res)=>{
     try{
         const user = await User.findOne({username: req.body.username});
-        !user && res.status(401).json("Wrong credentials");
+        while(!user){
+            return res.status(401).json("Wrong username");
+        }
 
         const userPassword = user.password;
-        userPassword !== req.body.password && res.status(401).json("Wrong password");
+        while(userPassword !== req.body.password){
+            return res.status(401).json("Wrong password");
+        }
 
         const accessToken = jwt.sign(
             {
@@ -43,7 +50,6 @@ router.post("/login", async (req,res)=>{
     catch(error){
         console.log(error);
         res.status(500).json(error);
-        
     }
 });
 
