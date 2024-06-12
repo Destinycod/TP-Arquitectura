@@ -1,3 +1,4 @@
+/*
 module.exports = {
     
     modulePathIgnorePatterns: [
@@ -6,4 +7,4 @@ module.exports = {
     transformIgnorePatterns: [
       "node_modules/@sentry/profiling-node"
     ],
-  };
+  };*/
