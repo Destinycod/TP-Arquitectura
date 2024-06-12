@@ -12,22 +12,8 @@ const userRoute = require("./routes/user");
 const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/order");
 const { swaggerDocs: V1SwaggerDocs } = require("./v1/swagger");
-/*
-// Initialize Sentry
-Sentry.init({
-    dsn: process.env.SENTRY_DSN, // Coloca tu DSN aquí
-    integrations: [
-      // enable HTTP calls tracing
-      new Sentry.Integrations.Http({ tracing: true }),
-      // enable Express.js middleware tracing
-      new Tracing.Integrations.Express({ app }),
-    ],
-    tracesSampleRate: 1.0,
-  });*/
 
-// Usar Sentry para capturar todas las excepciones
-//app.use(Sentry.Handlers.requestHandler());
-//app.use(Sentry.Handlers.tracingHandler());
+
 
 // Conexión a la base de datos
 mongoose.connect(process.env.MONGO_URL)
@@ -62,4 +48,4 @@ app.listen(process.env.PORT, () => {
     V1SwaggerDocs(app, process.env.PORT);
 });
 
-//module.exports = app;
+module.exports = app;
