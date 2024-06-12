@@ -1,7 +1,6 @@
 require("./instrument");
 
 const Sentry = require("@sentry/node");
-//const Tracing = require("@sentry/tracing");
 const express = require('express');
 const app = express();
 const mongoose = require("mongoose");
@@ -12,8 +11,6 @@ const userRoute = require("./routes/user");
 const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/order");
 const { swaggerDocs: V1SwaggerDocs } = require("./v1/swagger");
-
-
 
 // Conexión a la base de datos
 mongoose.connect(process.env.MONGO_URL)
