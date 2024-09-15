@@ -26,6 +26,7 @@ app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
+//Agregando un comentario para probar el pull
 
 // Ruta de ejemplo para verificar que Sentry está funcionando
 app.get('/debug-sentry', function mainHandler(req, res) {
