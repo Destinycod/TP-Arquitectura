@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("DB connection successful"))
   .catch((error) => {
     console.log(error);
-    Sentry.captureException(error); // Capture MongoDB connection errors
+    //Sentry.captureException(error); // Capture MongoDB connection errors
 });
 
 app.use(express.json());
@@ -29,14 +29,14 @@ app.use("/api/orders", orderRoute);
 //Agregando un comentario par
 
 // Ruta de ejemplo para verificar que Sentry está funcionando
-app.get('/debug-sentry', function mainHandler(req, res) {
-    throw new Error('My first Sentry error!');
-});
+//app.get('/debug-sentry', function mainHandler(req, res) {
+   // throw new Error('My first Sentry error!');
+//});
 
 //console.log(Sentry);
 
 // The error handler must be registered before any other error middleware and after all controllers
-Sentry.setupExpressErrorHandler(app);
+//Sentry.setupExpressErrorHandler(app);
 
 app.listen(process.env.PORT, () => {
     console.log(`App listening on port ${process.env.PORT}`);
